@@ -28,33 +28,23 @@ export class App extends Component {
   //! axios.get-запрос: (с async/await)
   async fetchHits() {
     try { 
-    console.log(this.state.query); //!
+    // console.log(this.state.query); //!
     const url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; 
-    console.log("fetchHits: ", url); //!
+    // console.log("fetchHits: ", url); //!
     const response = await axios.get(url);
     // const newHits = await response.data;
     // const { hits } = newHits;
     // console.log(hits); //!
     // return hits;
       
-      //?  Прверка hits на пустой массив:
-      // console.log("response.data.total: ", response.data.total); //!
-      // if (!response.data.total) {
-      //   toast.warning('Нет такой темы'); 
-      //   this.setState ({
-      //     page: 1,
-      //     query: '',
-      //     hits: [],
-      //   });
-      //   return;
-      // }
-
     return response.data;
       } catch (error) { 
         this.setState({ error: true, isLoading: false }); 
         console.log(error); 
     } 
   };
+  
+
   
   //? --------------------------------------------------------
   // async componentDidMount() {
@@ -116,11 +106,11 @@ export class App extends Component {
         prevState.query !== this.state.query
       ) {
         this.setState({ isLoading: true })
-        // console.log("componentDidUpdate: ", this.url); //!
         const { hits } = await this.fetchHits();
+
         //!  Прверка hits на пустой массив:
-        console.log("fetch hits[0]: ", hits[0]); //! //!
         if (hits[0] === undefined) {
+          // console.log("undefined hits[0]: ", hits[0]); //!
           toast.warning('Нет такой темы'); 
           this.setState ({
             page: 1,
@@ -129,6 +119,7 @@ export class App extends Component {
           });
           return;
         };
+
         this.setState({ hits, isLoading: false });
           console.log("fetch hits: ", hits); //!
           console.log("fetch hits[0]: ", hits[0]); //!
