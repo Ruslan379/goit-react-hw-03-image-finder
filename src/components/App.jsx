@@ -129,7 +129,7 @@ export class App extends Component {
     this.setState ({
       page: 1,
       query: event.target.elements.query.value,
-      hits: [],
+      // hits: [],
     });
     event.target.reset()
     // this.props.onSubmit(name, number);
@@ -162,9 +162,9 @@ export class App extends Component {
   render() {
     const { hits } = this.state
     // console.log(this.url); //!
-    // console.log("hits: ", hits); //!
-    // console.log("hits[0]: ", hits[0]); //!
-    // console.log("hits[0].id: ", hits[0].id); //!
+    console.log("render hits: ", hits); //!
+    // console.log("render hits[0]: ", hits[0]); //!
+    // console.log("render hits[0].id: ", hits[0].id); //!
     
     // console.log("this.state.hits: ", this.state.hits); //!
     // console.log("this.state.hits[0]: ", this.state.hits[0]); //!
