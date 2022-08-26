@@ -104,7 +104,7 @@ export class App extends Component {
         prevState.page !== this.state.page ||
         prevState.query !== this.state.query
       ) {
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true }); 
         const { hits } = await this.fetchHits();
 
         //!  Прверка hits на пустой массив:
@@ -118,7 +118,15 @@ export class App extends Component {
           return;
         };
 
-        this.setState({ hits, isLoading: false });
+        // console.log("prevState.hits: ", prevState.hits); //!
+        // console.log("this.state.hits: ", this.state.hits); //!
+        // console.log("fetch hits: ", hits); //!
+        // this.setState({ hits, isLoading: false }); //? так только 12 новых фото
+        this.setState(prevState  => ({
+          hits: [...prevState.hits, ...hits],
+          isLoading: false
+        }));
+        
           // console.log("fetch hits: ", hits); //!
           // console.log("fetch hits[0]: ", hits[0]); //!
           // console.log("fetch hits[0].id: ", hits[0].id); //!
