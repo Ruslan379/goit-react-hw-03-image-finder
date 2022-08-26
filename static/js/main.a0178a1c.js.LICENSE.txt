@@ -43,5 +43,3 @@
 //!
 
 //! axios.get-запрос: (с async/await)
-
-//! with API_KEY
