@@ -27,6 +27,7 @@ export class App extends Component {
 //* ================================ МЕТОДЫ ==========================================================
   //! axios.get-запрос: (с async/await)
   async fetchHits() {
+    try { 
     console.log(this.state.query); //!
     const url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; 
     console.log("fetchHits: ", url); //!
@@ -35,8 +36,24 @@ export class App extends Component {
     // const { hits } = newHits;
     // console.log(hits); //!
     // return hits;
-    // console.log(response.data); //!
+      
+      //?  Прверка hits на пустой массив:
+      // console.log("response.data.total: ", response.data.total); //!
+      // if (!response.data.total) {
+      //   toast.warning('Нет такой темы'); 
+      //   this.setState ({
+      //     page: 1,
+      //     query: '',
+      //     hits: [],
+      //   });
+      //   return;
+      // }
+
     return response.data;
+      } catch (error) { 
+        this.setState({ error: true, isLoading: false }); 
+        console.log(error); 
+    } 
   };
   
   //? --------------------------------------------------------
@@ -87,7 +104,7 @@ export class App extends Component {
 
 
   async componentDidUpdate(_, prevState) {
-    try { //?
+    try { 
       console.log("prevState.page: ", prevState.page); //!
       console.log("this.state.page: ", this.state.page); //!
     
@@ -100,7 +117,18 @@ export class App extends Component {
       ) {
         this.setState({ isLoading: true })
         // console.log("componentDidUpdate: ", this.url); //!
-        const { hits } = await this.fetchHits()
+        const { hits } = await this.fetchHits();
+        //!  Прверка hits на пустой массив:
+        console.log("fetch hits[0]: ", hits[0]); //! //!
+        if (hits[0] === undefined) {
+          toast.warning('Нет такой темы'); 
+          this.setState ({
+            page: 1,
+            query: '',
+            hits: [],
+          });
+          return;
+        };
         this.setState({ hits, isLoading: false });
           console.log("fetch hits: ", hits); //!
           console.log("fetch hits[0]: ", hits[0]); //!
@@ -108,10 +136,10 @@ export class App extends Component {
           console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
           console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
       }
-    } catch (error) { //?
-      this.setState({ error: true, isLoading: false }); //?
-      console.log(error); //?
-      } //?
+    } catch (error) { 
+      this.setState({ error: true, isLoading: false }); 
+      console.log(error); 
+      } 
   }
 
 
@@ -121,7 +149,6 @@ export class App extends Component {
     // console.log(event.target.elements.query.value); //!
 
     if (event.target.elements.query.value === '') {
-      // alert('Введите имя');
       toast.error('Поле не должно быть пустым'); 
       return;
     };
@@ -129,7 +156,7 @@ export class App extends Component {
     this.setState ({
       page: 1,
       query: event.target.elements.query.value,
-      // hits: [],
+      hits: [],
     });
     event.target.reset()
     // this.props.onSubmit(name, number);
@@ -148,16 +175,6 @@ export class App extends Component {
 
 
 
-  
-  
-
-  
-
-
-
-
-
-  
 //* ================================ RENDER ==========================================================
   render() {
     const { hits } = this.state
