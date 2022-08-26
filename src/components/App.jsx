@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -37,8 +39,8 @@ export class App extends Component {
     return response.data;
   };
   
-
-    // async componentDidMount() {
+  //? --------------------------------------------------------
+  // async componentDidMount() {
   //   try {
   //   this.setState({ isLoading: true })
   //   // setTimeout(() => { //?
@@ -61,7 +63,7 @@ export class App extends Component {
   // }
 
 
-
+  //? --------------------------------------------------------
   // handleChange = event => {
   //   // console.log(event.currentTarget); //!
   //   // console.log(event.currentTarget.name); //!
@@ -81,27 +83,6 @@ export class App extends Component {
 
   //     this.setState({ query: value });
   // };
-
-
-  //! Очистка поля инпута
-  // reset = () => {
-  //   this.setState({ query: '' });
-  // };
-
-
-  handleSubmit = event => {
-    event.preventDefault();
-    // console.log(event.target.elements.query.value); //!
-    this.setState ({
-      page: 1,
-      query: event.target.elements.query.value,
-      hits: [],
-    });
-    event.target.reset()
-    // this.props.onSubmit(name, number);
-    // this.reset();
-  };
-
 
 
 
@@ -135,6 +116,37 @@ export class App extends Component {
 
 
 
+  handleSubmit = event => {
+    event.preventDefault();
+    // console.log(event.target.elements.query.value); //!
+
+    if (event.target.elements.query.value === '') {
+      // alert('Введите имя');
+      toast.error('Поле не должно быть пустым'); 
+      return;
+    };
+
+    this.setState ({
+      page: 1,
+      query: event.target.elements.query.value,
+      hits: [],
+    });
+    event.target.reset()
+    // this.props.onSubmit(name, number);
+    // this.reset();
+  };
+
+
+
+  loadMore = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
+  }
+  
+
+
+
 
   
   
@@ -159,8 +171,10 @@ export class App extends Component {
     // console.log("this.state.hits[0].id: ", this.state.hits[0].id); //!
 
     return (
-      // <Searchbar/>
-      <header className="searchbar">
+      
+        // <Searchbar/> 
+        <header className="searchbar">
+        <ToastContainer autoClose={1000} theme={"colored"} />
         <form
           className="form"
           onSubmit={this.handleSubmit}
@@ -185,11 +199,12 @@ export class App extends Component {
           <button
             type="button"
             className="button"
+            onClick={this.loadMore}
           >
             Load more
           </button>
         </form>
-      </header>
+        </header>
     );
   }
 }
