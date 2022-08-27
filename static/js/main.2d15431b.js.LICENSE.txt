@@ -58,10 +58,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//!
-
-//!  Прверка hits на пустой массив:
-
 //! axios.get-запрос: (с async/await)
 
 //! Проверка на пустое поле инпута
