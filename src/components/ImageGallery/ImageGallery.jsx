@@ -119,7 +119,9 @@ export class ImageGallery extends Component {
       //? принимаем props от ImageGallery query={query} из App
       // const query = this.props.query;
 
-      if (prevProps.query !== this.props.query) {
+      if (
+        prevProps.query !== this.props.query
+      ) {
         console.log("Изменилось имя запроса");
         console.log("prevProps.query: ", prevProps.query); //!
         console.log("this.props.query: ", this.props.query); //!
@@ -130,7 +132,6 @@ export class ImageGallery extends Component {
         });
       }
 
-      
       if (
         prevState.page !== this.state.page ||
         prevState.query !== this.state.query
@@ -155,7 +156,6 @@ export class ImageGallery extends Component {
           // console.log("undefined this.state.hits: ", this.state.hits); //!
           return;
         };
-
         // console.log("prevState.hits: ", prevState.hits); //!
         // console.log("this.state.hits: ", this.state.hits); //!
         // console.log("fetch hits: ", hits); //!
@@ -223,11 +223,11 @@ export class ImageGallery extends Component {
 
     return (
       < >
+        {(hits[0] === undefined) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
         <ul className={css.ImageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
               key={id}
-              // className="gallery-item"
               className={css.ImageGalleryItem}
             >
               <img
