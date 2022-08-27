@@ -220,7 +220,6 @@ export class ImageGallery extends Component {
         {(hits[0] === undefined && isLoading === false) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
         <ul className={css.ImageGallery}>
           <ImageGalleryItem hits={hits} />
-          
           {/* {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
               key={id}
@@ -233,9 +232,17 @@ export class ImageGallery extends Component {
               />
             </li>
           ))} */}
-
         </ul>
         
+        {(hits[0] !== undefined) && (
+          <button
+            type='button'
+            onClick={this.toggleModal}
+          >
+            Открыть/Закрыть
+          </button>)}
+        
+
         {isLoading && <Loader />}
 
         {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
@@ -244,12 +251,18 @@ export class ImageGallery extends Component {
         {/* {showModal && <Modal hits={hits} />} */}
         
         {showModal && (
-          <Modal >
+          <Modal onClose={this.toggleModal}>
             {/* <h1>Привет</h1> */}
             <img
               src={hits[0].largeImageURL}
               alt=""
             />
+            <button
+              type='button'
+              onClick={this.toggleModal}
+            >
+              Закрыть
+            </button>
           </Modal>
         )}
 
