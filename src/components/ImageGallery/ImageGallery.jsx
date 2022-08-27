@@ -3,8 +3,10 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
+
 
 import css from 'components/ImageGallery/ImageGallery.module.css' //todo = старый вариант импорта стилей
 
@@ -223,9 +225,11 @@ export class ImageGallery extends Component {
 
     return (
       < >
-        {(hits[0] === undefined) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
+        {(hits[0] === undefined && isLoading === false) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
         <ul className={css.ImageGallery}>
-          {hits.map(({ id, webformatURL, largeImageURL }) => (
+          <ImageGalleryItem hits={hits} />
+          
+          {/* {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
               key={id}
               className={css.ImageGalleryItem}
@@ -236,7 +240,8 @@ export class ImageGallery extends Component {
                 alt=""
               />
             </li>
-          ))}
+          ))} */}
+
         </ul>
         
         {isLoading && <Loader />}
