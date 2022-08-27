@@ -15,12 +15,12 @@ import css from 'components/ImageGallery/ImageGallery.module.css' //todo = ст�
 
 export class ImageGallery extends Component {
   state = {
-    page: 1,
-    query: '',
-    hits: [],
-    isLoading: false,
-    error: false,
-    showModal: false,
+  page: 1,
+  query: '',
+  hits: [],
+  isLoading: false,
+  error: false,
+  showModal: false,
   };
 
 
@@ -191,12 +191,17 @@ export class ImageGallery extends Component {
   }
   
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  }; 
 
 
 
 //* ================================ RENDER ==========================================================
   render() {
-    const { hits, isLoading } = this.state
+    const { hits, isLoading, showModal } = this.state
     console.log("render - this.props.query: ", this.props.query);
     console.log("render ImageGallery - this.state: ", this.state);
     
@@ -234,8 +239,9 @@ export class ImageGallery extends Component {
         {isLoading && <Loader />}
 
         {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
-
+        
         {/* {(hits[0] !== undefined) && <Modal hits={hits} />} */}
+        {showModal && <Modal hits={hits} />}
 
       </>
     );
