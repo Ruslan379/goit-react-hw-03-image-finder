@@ -23,6 +23,12 @@ export class ImageGallery extends Component {
   showModal: false,
   };
 
+  //! +++++++++++++
+  image = {
+    webformatURL: "",
+    largeImageURL  : ""
+  }
+// imgSrc = null
 
   //! Формируем строку URL-запроса:
   API_KEY = '28759369-3882e1068ac26fe18d14affeb';
@@ -199,11 +205,26 @@ export class ImageGallery extends Component {
 
 
 
+  handleBackdropClick1 = event => {
+    // this.setState(({ showModal }) => ({
+    //   showModal: !showModal,
+    // }));
+    this.toggleModal()
+    console.log('Кликнули в бекдроп ImageGallery');
+
+    // console.log('currentTarget: ', event.currentTarget); //!
+    console.log('event.target.src: ', event.target.src); //!
+    this.image.webformatURL = event.target.src;
+    console.log('this.image.webformatURL: ', this.image.webformatURL);
+  };
+
+
 //* ================================ RENDER ==========================================================
   render() {
     const { hits, isLoading, showModal } = this.state
-    console.log("render - this.props.query: ", this.props.query);
-    console.log("render ImageGallery - this.state: ", this.state);
+    // console.log("render - this.props.query: ", this.props.query); //!
+    // console.log("render ImageGallery - this.state: ", this.state); //!
+    console.log("render this.image.webformatURL: ", this.image.webformatURL); //!
     
     // console.log(this.url); //!
     // console.log("render hits: ", hits); //!
@@ -218,7 +239,10 @@ export class ImageGallery extends Component {
     return (
       < >
         {(hits[0] === undefined && isLoading === false) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
-        <ul className={css.ImageGallery}>
+        <ul
+          className={css.ImageGallery}
+          onClick={this.handleBackdropClick1}
+        >
           <ImageGalleryItem hits={hits} />
           {/* {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
@@ -233,14 +257,14 @@ export class ImageGallery extends Component {
             </li>
           ))} */}
         </ul>
-        
-        {(hits[0] !== undefined) && (
+
+        {/* {(hits[0] !== undefined) && (
           <button
             type='button'
             onClick={this.toggleModal}
           >
             Открыть/Закрыть
-          </button>)}
+          </button>)} */}
         
 
         {isLoading && <Loader />}
@@ -254,34 +278,18 @@ export class ImageGallery extends Component {
           <Modal onClose={this.toggleModal}>
             {/* <h1>Привет</h1> */}
             <img
-              src={hits[0].largeImageURL}
+              /* src={hits[0].largeImageURL} */
+              src={this.image.webformatURL}
               alt=""
             />
-            <button
+            {/* <button
               type='button'
               onClick={this.toggleModal}
             >
               Закрыть
-            </button>
+            </button> */}
           </Modal>
         )}
-
-        {/* {showModal &&
-          <Modal onClose={this.toggleModal}>
-            <h1>Привет, это компонент модалки, как children</h1>
-            <p>loremasjfdsal;fjfsldf;lfk
-              l;sfj;sdlfjas;lfksalfjs;ljfsf
-              cmxzm,cvsdgh;
-              salgvxcmvewlgfvhsdlfafd
-            </p>
-            <button
-              type='button'
-              onClick={this.toggleModal}
-            >
-              Закрыть
-            </button>
-          </Modal>} */}
-
       </>
     );
   }
