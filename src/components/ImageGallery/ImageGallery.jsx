@@ -117,7 +117,7 @@ export class ImageGallery extends Component {
   async componentDidUpdate(prevProps, prevState) {
     try { 
       //? принимаем props от ImageGallery query={query} из App
-      const query = this.props.query;
+      // const query = this.props.query;
 
       if (prevProps.query !== this.props.query) {
         console.log("Изменилось имя запроса");
