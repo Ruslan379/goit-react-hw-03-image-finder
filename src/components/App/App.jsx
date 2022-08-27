@@ -27,7 +27,6 @@ export class App extends Component {
     hits: [],
     isLoading: false,
     error: false,
-    // showModal: false,
   };
 
 
@@ -213,7 +212,7 @@ export class App extends Component {
       isLoading,
       error,
     });
-    console.log("updateState -> this.state: ", this.state); //!
+    // console.log("updateState -> this.state: ", this.state); //!
   };
 
 
@@ -224,7 +223,7 @@ export class App extends Component {
     // const { query, hits, isLoading } = this.state
 
     // console.log(this.url); //!
-    console.log("render hits: ", hits); //!
+    // console.log("render hits: ", hits); //!
 
     // console.log("render hits[0]: ", hits[0]); //!
     // console.log("render hits[0].id: ", hits[0].id); //!
@@ -315,7 +314,6 @@ export class App extends Component {
           >
             Load more
           </button> */}
-        
       </div>
     );
   }

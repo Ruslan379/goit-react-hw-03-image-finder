@@ -23,88 +23,23 @@ export class ImageGallery extends Component {
   showModal: false,
   };
 
+
   //! +++++++++++++
   image = {
-    webformatURL: "",
-    largeImageURL  : ""
+    webURL: "",
+    largeURL  : ""
   }
-// imgSrc = null
+
 
   //! Формируем строку URL-запроса:
   API_KEY = '28759369-3882e1068ac26fe18d14affeb';
   BASE_URL = 'https://pixabay.com/api/';
-  per_page = 12;
+  per_page = 15;
   // url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; //! with API_KEY
   
 
 
 //* ================================ МЕТОДЫ ==========================================================
-  //? --------------------------------------------------------
-  // async componentDidMount() {
-  //   try {
-  //   this.setState({ isLoading: true })
-  //   // setTimeout(() => { //?
-  //     const { hits } = await this.fetchHits(this.url)
-  //     this.setState({ hits, isLoading: false });
-  //         console.log("fetch hits: ", hits); //!
-  //         console.log("fetch hits[0]: ", hits[0]); //!
-  //         console.log("fetch hits[0].id: ", hits[0].id); //!
-  //         console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
-  //       console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
-  //   } catch (error) {
-  //     this.setState({ error: true, isLoading: false });
-  //     console.log(error);
-  //     }
-  //       // return hits //?
-  //       // }) //?
-  //       // .then(hits => this.setState({ hits }))  //?
-  //       // .finally(() => this.setState({ isLoading: false })); //?
-  //   // }, 2000); //?
-  // }
-
-
-  //? перенесен в Searchbar
-  // handleChange = event => {
-  //   // console.log(event.currentTarget); //!
-  //   // console.log(event.currentTarget.name); //!
-  //   console.log(event.currentTarget.value); //!
-
-  //   // this.setState({ name: event.currentTarget.value }); //?
-  //   // this.setState({ [event.currentTarget.name]: event.currentTarget.value }); //?
-
-  //   const { value } = event.currentTarget;
-
-  //   // if (value.trim() === '') {
-  //   //   console.log(value);
-  //   //   // alert('Введите имя');
-  //   //   toast.error('Введите имя'); //? РАБОТАЕТ, но НЕ ПРАВИЛЬНО!!!
-  //   //   return;
-  //   // }
-
-  //     this.setState({ query: value });
-  // };
-
-
-//? перенесен в Searchbar
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   // console.log(event.target.elements.query.value); //!
-
-  //   if (event.target.elements.query.value === '') {
-  //     toast.error('Поле не должно быть пустым'); 
-  //     return;
-  //   };
-
-  //   this.setState ({
-  //     page: 1,
-  //     query: event.target.elements.query.value,
-  //     hits: [],
-  //   });
-  //   event.target.reset()
-  //   // this.props.onSubmit(name, number);
-  //   // this.reset();
-  // };
-
   //! axios.get-запрос: (с async/await)
   async fetchHits() {
     try { 
@@ -132,9 +67,9 @@ export class ImageGallery extends Component {
       if (
         prevProps.query !== this.props.query
       ) {
-        console.log("Изменилось имя запроса");
-        console.log("prevProps.query: ", prevProps.query); //!
-        console.log("this.props.query: ", this.props.query); //!
+        // console.log("Изменилось имя запроса"); //!
+        // console.log("prevProps.query: ", prevProps.query); //!
+        // console.log("this.props.query: ", this.props.query); //!
         this.setState({
           page: 1,
           query: this.props.query,
@@ -146,15 +81,15 @@ export class ImageGallery extends Component {
         prevState.page !== this.state.page ||
         prevState.query !== this.state.query
       ) {
-        console.log("prevState.page: ", prevState.page); //!
-        console.log("this.state.page: ", this.state.page); //!
+        // console.log("prevState.page: ", prevState.page); //!
+        // console.log("this.state.page: ", this.state.page); //!
     
-        console.log("prevState.query: ", prevState.query); //!
-        console.log("this.state.query: ", this.state.query); //!
+        // console.log("prevState.query: ", prevState.query); //!
+        // console.log("this.state.query: ", this.state.query); //!
 
         this.setState({ isLoading: true }); 
         const { hits } = await this.fetchHits();
-        console.log("ImageGallery - hits: ", hits);
+        // console.log("ImageGallery - hits: ", hits); //!
         //!  Прверка hits на пустой массив:
         if (hits[0] === undefined) {
           // console.log("undefined hits[0]: ", hits[0]); //!
@@ -179,7 +114,7 @@ export class ImageGallery extends Component {
           // console.log("fetch hits[0].id: ", hits[0].id); //!
           // console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
           // console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
-        console.log("ImageGallery - this.state: ", this.state);
+        // console.log("ImageGallery - this.state: ", this.state); //!
         this.props.onSubmit(this.state); 
       }
     } catch (error) { 
@@ -210,12 +145,18 @@ export class ImageGallery extends Component {
     //   showModal: !showModal,
     // }));
     this.toggleModal()
-    console.log('Кликнули в бекдроп ImageGallery');
+    // console.log('Кликнули в бекдроп ImageGallery'); //!
 
     // console.log('currentTarget: ', event.currentTarget); //!
-    console.log('event.target.src: ', event.target.src); //!
-    this.image.webformatURL = event.target.src;
-    console.log('this.image.webformatURL: ', this.image.webformatURL);
+    // console.log('event.target.src: ', event.target.src); //!
+    this.image.webURL = event.target.src; //?
+    // console.log('this.image.webURL: ', this.image.webURL); //!
+
+    const i = this.state.hits.findIndex(hit => hit.webformatURL === event.target.src)
+    // console.log(i); //!
+    this.image.largeURL = this.state.hits[i].largeImageURL
+    // console.log('this.image.largeURL: ', this.image.largeURL); //!
+
   };
 
 
@@ -223,8 +164,9 @@ export class ImageGallery extends Component {
   render() {
     const { hits, isLoading, showModal } = this.state
     // console.log("render - this.props.query: ", this.props.query); //!
-    // console.log("render ImageGallery - this.state: ", this.state); //!
-    console.log("render this.image.webformatURL: ", this.image.webformatURL); //!
+    // console.log("render - ImageGallery - this.state: ", this.state); //!
+    // console.log("render - this.image.webURL: ", this.image.webURL); //!
+    // console.log('render - this.image.largeURL: ', this.image.largeURL); //!
     
     // console.log(this.url); //!
     // console.log("render hits: ", hits); //!
@@ -238,7 +180,14 @@ export class ImageGallery extends Component {
 
     return (
       < >
-        {(hits[0] === undefined && isLoading === false) && <div style={{ margin: '0 auto' }}><h1>Введите тему</h1></div>}
+        {(hits[0] === undefined && isLoading === false) && (
+          <div
+            style={{ margin: '0 auto' }}
+          >
+            <h1>Введите тему</h1>
+          </div>
+        )}
+        
         <ul
           className={css.ImageGallery}
           onClick={this.handleBackdropClick1}
@@ -279,7 +228,7 @@ export class ImageGallery extends Component {
             {/* <h1>Привет</h1> */}
             <img
               /* src={hits[0].largeImageURL} */
-              src={this.image.webformatURL}
+              src={this.image.largeURL}
               alt=""
             />
             {/* <button
