@@ -218,7 +218,7 @@ export class App extends Component {
 
 //* ================================ RENDER ==========================================================
   render() {
-    const { query, hits } = this.state
+    const { query } = this.state
     //? isLoading - перенесен в ImageGallery
     // const { query, hits, isLoading } = this.state
 
