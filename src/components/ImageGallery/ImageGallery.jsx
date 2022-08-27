@@ -241,7 +241,33 @@ export class ImageGallery extends Component {
         {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
         
         {/* {(hits[0] !== undefined) && <Modal hits={hits} />} */}
-        {showModal && <Modal hits={hits} />}
+        {/* {showModal && <Modal hits={hits} />} */}
+        
+        {showModal && (
+          <Modal >
+            {/* <h1>Привет</h1> */}
+            <img
+              src={hits[0].largeImageURL}
+              alt=""
+            />
+          </Modal>
+        )}
+
+        {/* {showModal &&
+          <Modal onClose={this.toggleModal}>
+            <h1>Привет, это компонент модалки, как children</h1>
+            <p>loremasjfdsal;fjfsldf;lfk
+              l;sfj;sdlfjas;lfksalfjs;ljfsf
+              cmxzm,cvsdgh;
+              salgvxcmvewlgfvhsdlfafd
+            </p>
+            <button
+              type='button'
+              onClick={this.toggleModal}
+            >
+              Закрыть
+            </button>
+          </Modal>} */}
 
       </>
     );
