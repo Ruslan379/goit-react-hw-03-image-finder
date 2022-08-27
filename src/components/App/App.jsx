@@ -1,7 +1,18 @@
 import { Component } from 'react';
 import axios from 'axios';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { Audio } from  'react-loader-spinner'
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+import { Container } from 'components/Container/Container';
+import { Searchbar } from 'components/Searchbar/Searchbar';
+import { Button } from 'components/Button/Button';
+
+
+// import css from 'components/App/App.module.css' //todo = старый вариант импорта стилей
 
 
 
@@ -49,7 +60,7 @@ export class App extends Component {
   // }
 
 
-  //? --------------------------------------------------------
+  //? перенесен в Searchbar
   // handleChange = event => {
   //   // console.log(event.currentTarget); //!
   //   // console.log(event.currentTarget.name); //!
@@ -71,6 +82,25 @@ export class App extends Component {
   // };
 
 
+//? перенесен в Searchbar
+  // handleSubmit = event => {
+  //   event.preventDefault();
+  //   // console.log(event.target.elements.query.value); //!
+
+  //   if (event.target.elements.query.value === '') {
+  //     toast.error('Поле не должно быть пустым'); 
+  //     return;
+  //   };
+
+  //   this.setState ({
+  //     page: 1,
+  //     query: event.target.elements.query.value,
+  //     hits: [],
+  //   });
+  //   event.target.reset()
+  //   // this.props.onSubmit(name, number);
+  //   // this.reset();
+  // };
 
   //! axios.get-запрос: (с async/await)
   async fetchHits() {
@@ -140,28 +170,24 @@ export class App extends Component {
   }
 
 
+  
 
-  handleSubmit = event => {
-    event.preventDefault();
-    // console.log(event.target.elements.query.value); //!
-
-    if (event.target.elements.query.value === '') {
-      toast.error('Поле не должно быть пустым'); 
-      return;
-    };
-
+  //! Передача пропса this.state.query из Searchbar
+  handleFormSubmit = (query) => {
+    // console.log("handleFormSubmit query: ", query); //!
+    
     this.setState ({
       page: 1,
-      query: event.target.elements.query.value,
+      query,
       hits: [],
     });
-    event.target.reset()
-    // this.props.onSubmit(name, number);
-    // this.reset();
+
+    // console.log("handleFormSubmit -> this.state.query: ", this.state.query); //!
   };
 
 
 
+  //! Кнопка loadMore
   loadMore = () => {
     this.setState(prevState => ({
       page: prevState.page + 1,
@@ -185,10 +211,11 @@ export class App extends Component {
     // console.log("this.state.hits[0].id: ", this.state.hits[0].id); //!
 
     return (
-      
-        // <Searchbar/> 
-        <header className="searchbar">
-        <ToastContainer autoClose={1000} theme={"colored"} />
+      <Container>
+        <ToastContainer autoClose={1000} theme={"colored"}/>
+        <Searchbar onSubmit={this.handleFormSubmit} />
+
+        {/* <header className="searchbar">
         <form
           className="form"
           onSubmit={this.handleSubmit}
@@ -210,7 +237,9 @@ export class App extends Component {
             // onChange={this.handleChange}
           />
           
-
+        </form>  
+        </header> */}
+        
         <ul className="gallery">
           {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
@@ -226,20 +255,27 @@ export class App extends Component {
         </ul>
         
         
-        
+        <Audio
+          height = "80"
+          width = "80"
+          radius = "9"
+          color = 'green'
+          ariaLabel = 'three-dots-loading'     
+          wrapperStyle
+          wrapperClass
+        />
         <br />
-          <button
+        <Button onClick={this.loadMore} />
+
+          {/* <button
             type="button"
             className="button"
             onClick={this.loadMore}
           >
             Load more
-          </button>
-        </form>  
-
-
-      </header>
-      
+          </button> */}
+        
+      </Container>
       
     );
   }
