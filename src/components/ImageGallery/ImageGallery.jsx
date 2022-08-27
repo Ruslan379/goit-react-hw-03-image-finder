@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
+import { Modal } from 'components/Modal/Modal';
 
 
 import css from 'components/ImageGallery/ImageGallery.module.css' //todo = старый вариант импорта стилей
@@ -19,6 +20,7 @@ export class ImageGallery extends Component {
     hits: [],
     isLoading: false,
     error: false,
+    showModal: false,
   };
 
 
@@ -146,7 +148,7 @@ export class ImageGallery extends Component {
 
         this.setState({ isLoading: true }); 
         const { hits } = await this.fetchHits();
-
+        console.log("ImageGallery - hits: ", hits);
         //!  Прверка hits на пустой массив:
         if (hits[0] === undefined) {
           // console.log("undefined hits[0]: ", hits[0]); //!
@@ -171,30 +173,14 @@ export class ImageGallery extends Component {
           // console.log("fetch hits[0].id: ", hits[0].id); //!
           // console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
           // console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
-        this.props.onSubmit(this.state);
+        console.log("ImageGallery - this.state: ", this.state);
+        this.props.onSubmit(this.state); 
       }
     } catch (error) { 
       this.setState({ error: true, isLoading: false }); 
       console.log(error); 
       } 
   }
-
-
-  
-
-  //! Передача пропса this.state.query из Searchbar
-  handleFormSubmit = (query) => {
-    // console.log("handleFormSubmit query: ", query); //!
-    
-    this.setState ({
-      page: 1,
-      query,
-      hits: [],
-    });
-
-    // console.log("handleFormSubmit -> this.state.query: ", this.state.query); //!
-  };
-
 
 
   //! Кнопка loadMore
@@ -212,6 +198,7 @@ export class ImageGallery extends Component {
   render() {
     const { hits, isLoading } = this.state
     console.log("render - this.props.query: ", this.props.query);
+    console.log("render ImageGallery - this.state: ", this.state);
     
     // console.log(this.url); //!
     // console.log("render hits: ", hits); //!
@@ -247,6 +234,9 @@ export class ImageGallery extends Component {
         {isLoading && <Loader />}
 
         {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
+
+        {/* {(hits[0] !== undefined) && <Modal hits={hits} />} */}
+
       </>
     );
   }

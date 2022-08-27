@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 // import { Container } from 'components/Container/Container';
+// import { Modal } from 'components/Modal/Modal';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 // import { Loader } from 'components/Loader/Loader';
@@ -26,6 +27,7 @@ export class App extends Component {
     hits: [],
     isLoading: false,
     error: false,
+    // showModal: false,
   };
 
 
@@ -202,14 +204,14 @@ export class App extends Component {
 
 
 //! Передача пропса this.state из ImageGallery
-  updateState = (newState) => {
-    console.log("newState: ", newState); //!
+  updateState = ({ page, query, hits, isLoading, error}) => {
+    // console.log("newState: ", newState); //!
     this.setState ({
-      page: newState.page,
-      query: newState.query,
-      hits: newState.hits,
-      isLoading: newState.isLoading,
-      error: newState.error,
+      page,
+      query,
+      hits,
+      isLoading,
+      error,
     });
     console.log("updateState -> this.state: ", this.state); //!
   };
@@ -220,7 +222,7 @@ export class App extends Component {
     const { query, hits } = this.state
     //? isLoading - перенесен в ImageGallery
     // const { query, hits, isLoading } = this.state
-    
+
     // console.log(this.url); //!
     console.log("render hits: ", hits); //!
 
@@ -233,7 +235,8 @@ export class App extends Component {
 
     return (
       <div className={css.App}>
-        <ToastContainer autoClose={1000} theme={"colored"}/>
+        <ToastContainer autoClose={1000} theme={"colored"} />
+        
         <Searchbar onSubmit={this.handleFormSubmit} />
 
         {/* <header className="searchbar">
@@ -267,6 +270,9 @@ export class App extends Component {
           onSubmit={this.updateState}
         />
         
+        {/* {(hits[0] !== undefined) && <Modal hits={hits} />} */}
+
+
         {/* <ul className="gallery"> */}
         {/* <ul className={css.ImageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL }) => (
