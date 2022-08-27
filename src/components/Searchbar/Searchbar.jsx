@@ -22,12 +22,6 @@ export class Searchbar extends Component {
   handleChange = event => {
     // console.log("handleChange - event.currentTarget.value: ", event.currentTarget.value); //!
 
-    //? Проверка на пустое поле инпута --> тут НЕ ПРАВИЛЬНО РАБОТАЕТ !!!
-    // if (event.currentTarget.value.trim() === '') {
-    //   toast.error('Поле не должно быть пустым'); 
-    //   return;
-    // };
-
     this.setState({ query: event.currentTarget.value.toLowerCase() });
   };
 
@@ -40,6 +34,7 @@ export class Searchbar extends Component {
     // console.log("handleSubmit - event.target.elements.query.value: ", event.target.elements.query.value); //!
 
     //! Проверка на пустое поле инпута
+    // if (this.state.query.trim() === '') { //? или так, но не совсем правильно работает
     if (event.target.elements.query.value.trim() === '') {
       toast.error('Поле не должно быть пустым');
       event.target.reset()
