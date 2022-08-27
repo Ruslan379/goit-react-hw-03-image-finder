@@ -3,7 +3,6 @@ import { Component } from 'react';
 
 import { toast } from 'react-toastify';
 
-
 import css from 'components/Searchbar/Searchbar.module.css' //todo = старый вариант импорта стилей
 
 
@@ -12,7 +11,6 @@ export class Searchbar extends Component {
   state = {
     query: '',
   };
-
 
 
 //* ================================ МЕТОДЫ ==========================================================
@@ -30,7 +28,6 @@ export class Searchbar extends Component {
     // };
 
     this.setState({ query: event.currentTarget.value.toLowerCase() });
-
   };
 
 
@@ -55,12 +52,6 @@ export class Searchbar extends Component {
     // this.setState ({query: ""});
     event.target.reset()
   };
-
-
-
-  
-  
-
 
 
 

@@ -4,11 +4,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Audio } from  'react-loader-spinner'
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import { Audio } from  'react-loader-spinner'
+// // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 // import { Container } from 'components/Container/Container';
 import { Searchbar } from 'components/Searchbar/Searchbar';
+import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 
 
@@ -258,17 +259,20 @@ export class App extends Component {
           ))}
         </ul>
         
-        {isLoading && <Audio
-                        height = "80"
-                        // width = "80"
-                        width = "100%"
-                        radius = "9"
-                        color = 'green'
-                        ariaLabel = 'three-dots-loading'     
-                        wrapperStyle
-                        wrapperClass
-                      />
+        {isLoading && <Loader />
         }
+
+        {/* {isLoading && <Audio
+                        // height = "80"
+                        // // width = "80"
+                        width = "100%"
+                        // radius = "9"
+                        // color = 'green'
+                        // ariaLabel = 'three-dots-loading'     
+                        // wrapperStyle
+                        // wrapperClass
+                      />
+        } */}
         
         {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
         
