@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // import { Container } from 'components/Container/Container';
 import { Searchbar } from 'components/Searchbar/Searchbar';
+import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 
@@ -242,8 +243,10 @@ export class App extends Component {
         </form>  
         </header> */}
         
+        <ImageGallery hits={hits}/>
+        
         {/* <ul className="gallery"> */}
-        <ul className={css.ImageGallery}>
+        {/* <ul className={css.ImageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
               key={id}
@@ -257,7 +260,7 @@ export class App extends Component {
               />
           </li>
           ))}
-        </ul>
+        </ul> */}
         
         {isLoading && <Loader />
         }
