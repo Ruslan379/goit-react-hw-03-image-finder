@@ -142,6 +142,7 @@ export class App extends Component {
           toast.warning('Нет такой темы'); 
           this.setState ({
             hits: [],
+            isLoading: false
           });
           // console.log("undefined this.state.hits: ", this.state.hits); //!
           return;

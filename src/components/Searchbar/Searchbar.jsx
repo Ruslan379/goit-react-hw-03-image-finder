@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { toast } from 'react-toastify';
 
 
-// import css from 'components/Searchbar/Searchbar.module.css' //todo = старый вариант импорта стилей
+import css from 'components/Searchbar/Searchbar.module.css' //todo = старый вариант импорта стилей
 
 
 
@@ -70,20 +70,20 @@ export class Searchbar extends Component {
 
     return (
       
-        <header className="searchbar">
+        <header className={css.Searchbar}>
         <form
-          className="form"
+          className={css.SearchForm}
           onSubmit={this.handleSubmit}
         >
           <button
             type="submit"
-            className="button"
+            className={css.SearchFormButton}
           >
-            <span className="button-label">Search</span>
+            <span className={css.SearchFormButtonLabel1}>Search</span>
           </button>
 
           <input
-            className="input"
+            className={css.SearchFormInput}
             type="text"
             name = "query"
             autoComplete="off"
