@@ -1,11 +1,8 @@
 import { Component } from 'react';
-// import axios from 'axios';
+// import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 
-import { Audio } from  'react-loader-spinner'
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 // import css from 'components/Searchbar/Searchbar.module.css' //todo = старый вариант импорта стилей
 
@@ -13,21 +10,9 @@ import { Audio } from  'react-loader-spinner'
 
 export class Searchbar extends Component {
   state = {
-    // page: 1,
     query: '',
-    // hits: [],
-    // isLoading: false,
-    // error: false,
   };
 
-
-
-  //! Формируем строку URL-запроса:
-  // API_KEY = '28759369-3882e1068ac26fe18d14affeb';
-  // BASE_URL = 'https://pixabay.com/api/';
-  // per_page = 12;
-  // url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; //! with API_KEY
-  
 
 
 //* ================================ МЕТОДЫ ==========================================================

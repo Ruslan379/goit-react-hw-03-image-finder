@@ -7,12 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Audio } from  'react-loader-spinner'
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import { Container } from 'components/Container/Container';
+// import { Container } from 'components/Container/Container';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Button } from 'components/Button/Button';
 
 
-// import css from 'components/App/App.module.css' //todo = старый вариант импорта стилей
+import css from 'components/App/App.module.css' //todo = старый вариант импорта стилей
 
 
 
@@ -24,7 +24,6 @@ export class App extends Component {
     isLoading: false,
     error: false,
   };
-
 
 
   //! Формируем строку URL-запроса:
@@ -200,9 +199,10 @@ export class App extends Component {
 
 //* ================================ RENDER ==========================================================
   render() {
-    const { hits } = this.state
+    const { hits, isLoading } = this.state
     // console.log(this.url); //!
     console.log("render hits: ", hits); //!
+
     // console.log("render hits[0]: ", hits[0]); //!
     // console.log("render hits[0].id: ", hits[0].id); //!
     
@@ -211,7 +211,7 @@ export class App extends Component {
     // console.log("this.state.hits[0].id: ", this.state.hits[0].id); //!
 
     return (
-      <Container>
+      <div className={css.App}>
         <ToastContainer autoClose={1000} theme={"colored"}/>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
@@ -240,13 +240,16 @@ export class App extends Component {
         </form>  
         </header> */}
         
-        <ul className="gallery">
+        {/* <ul className="gallery"> */}
+        <ul className={css.ImageGallery}>
           {hits.map(({ id, webformatURL, largeImageURL }) => (
             <li
               key={id}
-              className="gallery-item"
+              // className="gallery-item"
+              className={css.ImageGalleryItem}
             >
               <img
+                className={css.ImageGalleryItemImage}
                 src={webformatURL}
                 alt=""
               />
@@ -254,19 +257,20 @@ export class App extends Component {
           ))}
         </ul>
         
+        {isLoading && <Audio
+                        height = "80"
+                        // width = "80"
+                        width = "100%"
+                        radius = "9"
+                        color = 'green'
+                        ariaLabel = 'three-dots-loading'     
+                        wrapperStyle
+                        wrapperClass
+                      />
+        }
         
-        <Audio
-          height = "80"
-          width = "80"
-          radius = "9"
-          color = 'green'
-          ariaLabel = 'three-dots-loading'     
-          wrapperStyle
-          wrapperClass
-        />
-        <br />
-        <Button onClick={this.loadMore} />
-
+        {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
+        
           {/* <button
             type="button"
             className="button"
@@ -275,8 +279,7 @@ export class App extends Component {
             Load more
           </button> */}
         
-      </Container>
-      
+      </div>
     );
   }
 }

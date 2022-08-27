@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import 'components/Filter/Filter.css';
 import css from 'components/Button/Button.module.css' //todo = старый вариант импорта стилей
 
 
@@ -10,7 +9,7 @@ import css from 'components/Button/Button.module.css' //todo = старый ва
 export const Button = ({ onClick }) => (
   <button
     type="button"
-    className="button"
+    className={css.Button}
     onClick={onClick}
   >
     Load more
