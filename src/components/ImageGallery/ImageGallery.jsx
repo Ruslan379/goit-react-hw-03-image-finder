@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 //todo ==> axios.get-запрос: (с async/await) ==> 1-ый ВАРИАНТ
 // import axios from 'axios';
@@ -19,8 +20,7 @@ import css from 'components/ImageGallery/ImageGallery.module.css' //todo = ст�
 export class ImageGallery extends Component {
   state = {
   page: 1,
-    query: '',
-  // query: 'cat',
+  query: '',
   hits: [],
   isLoading: false,
   error: false,
@@ -314,6 +314,11 @@ export class ImageGallery extends Component {
   }
 }
 
+
+ImageGallery.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+};
 
 
 

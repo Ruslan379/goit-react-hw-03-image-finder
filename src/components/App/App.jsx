@@ -1,4 +1,6 @@
 import { Component } from 'react';
+// import PropTypes from 'prop-types';
+
 // import axios from 'axios';
 
 // import { ToastContainer, toast } from 'react-toastify';
@@ -21,6 +23,11 @@ import css from 'components/App/App.module.css' //todo = старый вариа
 
 
 export class App extends Component {
+
+  // static propTypes = {
+  //   onSubmit: PropTypes.func.isRequired,
+  // };
+
   state = {
     page: 1,
     query: '',

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import css from 'components/Modal/Modal.module.css' //todo = старый вариант импорта стилей
 
@@ -60,7 +61,10 @@ export class Modal extends Component {
 
 
 
-
+Modal.propTypes = {
+  children: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 
 
