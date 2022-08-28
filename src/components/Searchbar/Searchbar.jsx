@@ -15,9 +15,6 @@ export class Searchbar extends Component {
 
 
 //* ================================ МЕТОДЫ ==========================================================
-  
-
-
   //! Запись в state значения поля инпут
   handleChange = event => {
     // console.log("handleChange - event.currentTarget.value: ", event.currentTarget.value); //!
@@ -27,13 +24,12 @@ export class Searchbar extends Component {
 
 
 
-
-  //! Передача пропса this.state.query в App
+  //! Submi ФОРМЫ, провека на "", передача пропса this.state.query в App
   handleSubmit = event => {
     event.preventDefault();
     // console.log("handleSubmit - event.target.elements.query.value: ", event.target.elements.query.value); //!
 
-    //! Проверка на пустое поле инпута
+    //! Проверка на пустую строку в инпуте
     // if (this.state.query.trim() === '') { //? или так, но не совсем правильно работает
     if (event.target.elements.query.value.trim() === '') {
       toast.error('Поле не должно быть пустым');
@@ -42,10 +38,11 @@ export class Searchbar extends Component {
     };
 
     // console.log("handleSubmit - this.state.query: ", this.state.query); //!
-    
+    //! Передача пропса this.state.query в App
     this.props.onSubmit(this.state.query);
 
     // this.setState ({query: ""});
+    //! Очистка поля инпута
     event.target.reset()
   };
 
@@ -53,11 +50,8 @@ export class Searchbar extends Component {
 
 //* ================================ RENDER ==========================================================
   render() {
-    
-
     return (
-      
-        <header className={css.Searchbar}>
+      <header className={css.Searchbar}>
         <form
           className={css.SearchForm}
           onSubmit={this.handleSubmit}

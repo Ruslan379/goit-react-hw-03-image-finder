@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
-
-// import 'components/ContactList/ContactList.css';
 import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css' //todo = старый вариант импорта стилей
 
 

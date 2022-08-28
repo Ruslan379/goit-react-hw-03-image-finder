@@ -195,14 +195,14 @@ export class App extends Component {
     this.setState ({
       page: 1,
       query,
-      hits: [],
+      // hits: [],
     });
     // console.log("handleFormSubmit -> this.state.query: ", this.state.query); //!
   };
 
 
 
-//! Передача пропса this.state из ImageGallery
+//! Передача пропса this.state из ImageGallery (возможно, не нужен...)
   updateState = ({ page, query, hits, isLoading, error}) => {
     // console.log("newState: ", newState); //!
     this.setState ({

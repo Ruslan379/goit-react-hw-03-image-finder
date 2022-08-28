@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
+import pixabayAPI from 'services/pixabay-api.js';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
@@ -16,7 +17,8 @@ import css from 'components/ImageGallery/ImageGallery.module.css' //todo = ст�
 export class ImageGallery extends Component {
   state = {
   page: 1,
-  query: '',
+    query: '',
+  // query: 'cat',
   hits: [],
   isLoading: false,
   error: false,
@@ -32,96 +34,75 @@ export class ImageGallery extends Component {
 
 
   //! Формируем строку URL-запроса:
-  API_KEY = '28759369-3882e1068ac26fe18d14affeb';
-  BASE_URL = 'https://pixabay.com/api/';
-  per_page = 15;
-  // url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; //! with API_KEY
+  //todo ==> axios.get-запрос: (с async/await) ==> 1-ый ВАРИАНТ
+  // API_KEY = '28759369-3882e1068ac26fe18d14affeb';
+  // BASE_URL = 'https://pixabay.com/api/';
+  // per_page = 12;
+  // // url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; //! with API_KEY
   
 
 
 //* ================================ МЕТОДЫ ==========================================================
-  //! axios.get-запрос: (с async/await)
-  async fetchHits() {
-    try { 
-    // console.log("fetchHits this.state.query: ", this.state.query); //!
-    const url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; 
-    // console.log("fetchHits: ", url); //!
-    const response = await axios.get(url);
-    // const newHits = await response.data;
-    // const { hits } = newHits;
-    // console.log(hits); //!
-    // return hits;
-    return response.data;
-      } catch (error) { 
-        this.setState({ error: true, isLoading: false }); 
-        console.log(error); 
-    } 
+  //! ==> ОСНОВНОЙ БЛОК. Анализ props и state + ЗАПРОС ==> 1-ый ВАРИАНТ
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.query !== this.props.query
+    ) {
+      // console.log("Изменилось имя запроса"); //!
+      // console.log("prevProps.query: ", prevProps.query); //!
+      // console.log("this.props.query: ", this.props.query); //!
+      this.setState({
+        page: 1,
+        query: this.props.query,
+        hits: [],
+      });
+    }
+    if (
+      prevState.page !== this.state.page ||
+      prevState.query !== this.state.query
+    ) {
+      // console.log("prevState.page: ", prevState.page); //!
+      // console.log("this.state.page: ", this.state.page); //!
+  
+      // console.log("prevState.query: ", prevState.query); //!
+      // console.log("this.state.query: ", this.state.query); //!
+      this.setState({ isLoading: true }); 
+      // const { hits } = await this.fetchHits();
+      // console.log("ImageGallery - hits: ", hits); //!
+      //! Делаем fetch-запрос с помощью services/pixabay-api.js
+      setTimeout(() => {
+      pixabayAPI
+        .fetchPixabay(this.state.query, this.state.page)
+        // .then(hits => this.setState({ hits }))
+        // .then(response => console.log(response.hits))
+        .then(response => {
+          //!  Прверка hits на пустой массив:
+          if (response.hits[0] === undefined) {
+        // console.log("undefined response.hits[0]: ", response.hits[0]); //!
+        toast.warning('Нет такой темы'); 
+        this.setState ({
+          hits: [],
+          isLoading: false
+        });
+        return;
+          } else {
+            this.setState(prevState  => ({
+              hits: [...prevState.hits, ...response.hits],
+              isLoading: false
+            }))
+          };
+        })
+        // .catch(error => this.setState({ error }));
+        .catch(error => {
+          this.setState({ error, isLoading: false });
+          console.log(error);
+        });
+      }, 1500);
+      //! Передача пропса this.state в App
+      this.props.onSubmit(this.state); 
+    }
   };
 
-
-  async componentDidUpdate(prevProps, prevState) {
-    try { 
-      //? принимаем props от ImageGallery query={query} из App
-      // const query = this.props.query;
-
-      if (
-        prevProps.query !== this.props.query
-      ) {
-        // console.log("Изменилось имя запроса"); //!
-        // console.log("prevProps.query: ", prevProps.query); //!
-        // console.log("this.props.query: ", this.props.query); //!
-        this.setState({
-          page: 1,
-          query: this.props.query,
-          hits: [],
-        });
-      }
-
-      if (
-        prevState.page !== this.state.page ||
-        prevState.query !== this.state.query
-      ) {
-        // console.log("prevState.page: ", prevState.page); //!
-        // console.log("this.state.page: ", this.state.page); //!
-    
-        // console.log("prevState.query: ", prevState.query); //!
-        // console.log("this.state.query: ", this.state.query); //!
-
-        this.setState({ isLoading: true }); 
-        const { hits } = await this.fetchHits();
-        // console.log("ImageGallery - hits: ", hits); //!
-        //!  Прверка hits на пустой массив:
-        if (hits[0] === undefined) {
-          // console.log("undefined hits[0]: ", hits[0]); //!
-          toast.warning('Нет такой темы'); 
-          this.setState ({
-            hits: [],
-            isLoading: false
-          });
-          // console.log("undefined this.state.hits: ", this.state.hits); //!
-          return;
-        };
-        // console.log("prevState.hits: ", prevState.hits); //!
-        // console.log("this.state.hits: ", this.state.hits); //!
-        // console.log("fetch hits: ", hits); //!
-        // this.setState({ hits, isLoading: false }); //? так только 12 новых фото
-        this.setState(prevState  => ({
-          hits: [...prevState.hits, ...hits],
-          isLoading: false
-        }));
-          // console.log("fetch hits: ", hits); //!
-          // console.log("fetch hits[0]: ", hits[0]); //!
-          // console.log("fetch hits[0].id: ", hits[0].id); //!
-          // console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
-          // console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
-        // console.log("ImageGallery - this.state: ", this.state); //!
-        this.props.onSubmit(this.state); 
-      }
-    } catch (error) { 
-      this.setState({ error: true, isLoading: false }); 
-      console.log(error); 
-      } 
-  }
 
 
   //! Кнопка loadMore
@@ -132,6 +113,8 @@ export class ImageGallery extends Component {
   }
   
 
+
+  //! Инверсия showModal для открытия/закрытия МОДАЛКИ
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
@@ -140,6 +123,7 @@ export class ImageGallery extends Component {
 
 
 
+  //! Кликаем в картинку, ищем её largeImageURL, откываем МОДАЛКУ с картинкой
   handleBackdropClick1 = event => {
     // this.setState(({ showModal }) => ({
     //   showModal: !showModal,
@@ -156,8 +140,92 @@ export class ImageGallery extends Component {
     // console.log(i); //!
     this.image.largeURL = this.state.hits[i].largeImageURL
     // console.log('this.image.largeURL: ', this.image.largeURL); //!
-
   };
+
+
+// OLD--------------------------------------------------------------------------------------------
+//todo ==> axios.get-запрос: (с async/await) ==> 1-ый ВАРИАНТ
+  // async fetchHits() {
+  //   try { 
+  //   // console.log("fetchHits this.state.query: ", this.state.query); //!
+  //   const url = `${this.BASE_URL}?key=${this.API_KEY}&q=${this.state.query}&image_type=photo&orientation=horizontal&page=${this.state.page}&per_page=${this.per_page}`; 
+  //   // console.log("fetchHits: ", url); //!
+  //   const response = await axios.get(url);
+  //   // const newHits = await response.data;
+  //   // const { hits } = newHits;
+  //   // console.log(hits); //!
+  //   // return hits;
+  //   return response.data;
+  //     } catch (error) { 
+  //       this.setState({ error: true, isLoading: false }); 
+  //       console.log(error); 
+  //   } 
+  // };
+
+//todo ==> ОСНОВНОЙ БЛОК. Анализ props и state + ЗАПРОС (с async/await) ==> 1-ый ВАРИАНТ
+  // async componentDidUpdate(prevProps, prevState) {
+  //   try { 
+  //     //? принимаем props от ImageGallery query={query} из App
+  //     // const query = this.props.query;
+
+  //     if (
+  //       prevProps.query !== this.props.query
+  //     ) {
+  //       // console.log("Изменилось имя запроса"); //!
+  //       // console.log("prevProps.query: ", prevProps.query); //!
+  //       // console.log("this.props.query: ", this.props.query); //!
+  //       this.setState({
+  //         page: 1,
+  //         query: this.props.query,
+  //         hits: [],
+  //       });
+  //     }
+
+  //     if (
+  //       prevState.page !== this.state.page ||
+  //       prevState.query !== this.state.query
+  //     ) {
+  //       // console.log("prevState.page: ", prevState.page); //!
+  //       // console.log("this.state.page: ", this.state.page); //!
+    
+  //       // console.log("prevState.query: ", prevState.query); //!
+  //       // console.log("this.state.query: ", this.state.query); //!
+
+  //       this.setState({ isLoading: true }); 
+  //       const { hits } = await this.fetchHits();
+  //       // console.log("ImageGallery - hits: ", hits); //!
+  //       //!  Прверка hits на пустой массив:
+  //       if (hits[0] === undefined) {
+  //         // console.log("undefined hits[0]: ", hits[0]); //!
+  //         toast.warning('Нет такой темы'); 
+  //         this.setState ({
+  //           hits: [],
+  //           isLoading: false
+  //         });
+  //         // console.log("undefined this.state.hits: ", this.state.hits); //!
+  //         return;
+  //       };
+  //       // console.log("prevState.hits: ", prevState.hits); //!
+  //       // console.log("this.state.hits: ", this.state.hits); //!
+  //       // console.log("fetch hits: ", hits); //!
+  //       // this.setState({ hits, isLoading: false }); //? так только 12 новых фото
+  //       this.setState(prevState  => ({
+  //         hits: [...prevState.hits, ...hits],
+  //         isLoading: false
+  //       }));
+  //         // console.log("fetch hits: ", hits); //!
+  //         // console.log("fetch hits[0]: ", hits[0]); //!
+  //         // console.log("fetch hits[0].id: ", hits[0].id); //!
+  //         // console.log("fetch hits[0].webformatURL: ", hits[0].webformatURL); //!
+  //         // console.log("fetch hits[0].largeImageURL: ", hits[0].largeImageURL); //!
+  //       // console.log("ImageGallery - this.state: ", this.state); //!
+  //       this.props.onSubmit(this.state); 
+  //     }
+  //   } catch (error) { 
+  //     this.setState({ error: true, isLoading: false }); 
+  //     console.log(error); 
+  //     } 
+  // }
 
 
 //* ================================ RENDER ==========================================================
