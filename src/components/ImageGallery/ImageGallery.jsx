@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import axios from 'axios';
+
+//todo ==> axios.get-запрос: (с async/await) ==> 1-ый ВАРИАНТ
+// import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
