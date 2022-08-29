@@ -22,13 +22,14 @@ export class ImageGallery extends Component {
   isLoading: false,
   error: false,
   showModal: false,
+  showButton: true,
   };
 
 
   //! для поиска largeImageURL
   image = {
     webURL: "",
-    largeURL  : ""
+    largeURL: "",
   }
 
 
@@ -54,22 +55,31 @@ export class ImageGallery extends Component {
       setTimeout(() => {
       pixabayAPI
         .fetchPixabay(this.state.query, this.state.page)
-        .then(response => {
-          //!  Прверка hits на пустой массив:
-          if (response.hits[0] === undefined) {
-        toast.warning('Нет такой темы'); 
-        this.setState ({
-          hits: [],
-          isLoading: false
-        });
-        return;
-          } else {
-            this.setState(prevState  => ({
-              hits: [...prevState.hits, ...response.hits],
+
+        .then(({ hits, endOfCollection }) => {
+          if (hits[0] === undefined) {  
+            toast.warning('Нет такой темы'); 
+            this.setState ({
+              hits: [],
               isLoading: false
-            }))
+            });
+          return;
+          } else {
+              this.setState(prevState  => ({
+                hits: [...prevState.hits, ...hits],
+                isLoading: false,
+                showButton: true
+              }))
           };
+          //! endOfCollection - это цифра еще НЕ ПРОСМОТРЕННЫХ элементов коллекции
+          console.log("endOfCollection: ", endOfCollection); //!
+          if (endOfCollection <= 0) {
+            toast.warning('Вы достигли конца результатов поиска'); 
+            this.setState({ showButton: false });  //! Кнопка LOAD MORE => ПРЯЧЕМ
+            return;
+          }
         })
+
         .catch(error => {
           this.setState({ error, isLoading: false });
           console.log(error);
@@ -109,10 +119,9 @@ export class ImageGallery extends Component {
 
 
 
-
 //* ================================ RENDER ==========================================================
   render() {
-    const { hits, isLoading, showModal } = this.state
+    const { hits, isLoading, showModal, showButton } = this.state
 
 
     return (
@@ -136,7 +145,7 @@ export class ImageGallery extends Component {
 
         {isLoading && <Loader />}
 
-        {(hits[0] !== undefined) && <Button onClick={this.loadMore} />}
+        {(hits[0] !== undefined && showButton) && <Button onClick={this.loadMore} />}
         
 
         
@@ -155,7 +164,7 @@ export class ImageGallery extends Component {
 
 
 ImageGallery.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
 };
 

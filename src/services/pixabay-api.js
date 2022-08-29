@@ -10,9 +10,14 @@ function fetchPixabay(query, page) {
       if (response.ok) {
         return response.json();
       }
-
       return Promise.reject(new Error(`Нет такой темы ${query}`));
-    });
+    })
+    .then(({ totalHits, hits }) => {
+      //? endOfCollection - это цифра еще НЕ ПРОСМОТРЕННЫХ элементов коллекции
+      const endOfCollection = totalHits - page * per_page;
+      const all = { hits, endOfCollection };
+      return all;
+    })
 }
 
 const api = {

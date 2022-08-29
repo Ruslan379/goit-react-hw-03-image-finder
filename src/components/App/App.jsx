@@ -39,8 +39,8 @@ export class App extends Component {
 
     return (
       <div className={css.App}>
-        
-        <ToastContainer autoClose={1000} theme={"colored"} />
+
+        <ToastContainer autoClose={2000} theme={"colored"} />
         
         <Searchbar
           onSubmit={this.handleFormSubmit}
