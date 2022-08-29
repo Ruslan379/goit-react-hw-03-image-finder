@@ -56,9 +56,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-//!  Прверка hits на пустой массив:
+//!
 
 //! ==> ОСНОВНОЙ БЛОК. Анализ props и state + ЗАПРОС ==> 1-ый ВАРИАНТ
+
+//! endOfCollection - это цифра еще НЕ ПРОСМОТРЕННЫХ элементов коллекции
 
 //! Делаем fetch-запрос с помощью services/pixabay-api.js
 
