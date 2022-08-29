@@ -9,14 +9,12 @@ const per_page = 12;
 
 
 async function fetchPixabay(query, page) {
-  // return fetch(`${BASE_URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&page=${page}&per_page=${per_page}`)
   const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&page=${page}&per_page=${per_page}`)
   const { totalHits, hits } = response.data;
   //! endOfCollection - это цифра еще НЕ ПРОСМОТРЕННЫХ элементов коллекции
   const endOfCollection = totalHits - page * per_page;
-  const all = { hits, endOfCollection };
+  const all = { hits, query, endOfCollection };
   return all;
-  // })
 }
 
 const api = {

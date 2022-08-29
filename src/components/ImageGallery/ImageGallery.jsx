@@ -56,9 +56,10 @@ export class ImageGallery extends Component {
       pixabayAPI
         .fetchPixabay(this.state.query, this.state.page)
 
-        .then(({ hits, endOfCollection }) => {
+        .then(({ hits, query, endOfCollection }) => {
           if (hits[0] === undefined) {  
-            toast.warning('Нет такой темы'); 
+            toast.warning('Нет такой темы: '); 
+            toast.warning(query); 
             this.setState ({
               hits: [],
               isLoading: false
@@ -84,7 +85,7 @@ export class ImageGallery extends Component {
           this.setState({ error, isLoading: false });
           console.log(error); //!
           alert(error);
-          // toast.warning(error); //!!! НЕ РАБОТАЕТ
+          // toast.warning(error); //? !!! НЕ РАБОТАЕТ !!!
           toast.error("Ошибка запроса", { position: "top-left", autoClose: 2000 } ); 
         });
       }, 1000);
