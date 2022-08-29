@@ -79,12 +79,15 @@ export class ImageGallery extends Component {
             return;
           }
         })
-
+        //! Обработка ошибок
         .catch(error => {
           this.setState({ error, isLoading: false });
-          console.log(error);
+          console.log(error); //!
+          alert(error);
+          // toast.warning(error); //!!! НЕ РАБОТАЕТ
+          toast.error("Ошибка запроса", { position: "top-left", autoClose: 2000 } ); 
         });
-      }, 1500);
+      }, 1000);
       //! Передача пропса this.state в App
       // this.props.onSubmit(this.state); 
     }
