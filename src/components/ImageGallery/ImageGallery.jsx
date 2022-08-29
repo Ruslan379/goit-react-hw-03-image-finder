@@ -74,7 +74,7 @@ export class ImageGallery extends Component {
           //! endOfCollection - это цифра еще НЕ ПРОСМОТРЕННЫХ элементов коллекции
           console.log("endOfCollection: ", endOfCollection); //!
           if (endOfCollection <= 0) {
-            toast.warning('Вы достигли конца результатов поиска'); 
+            toast.info('Вы достигли конца результатов поиска', { autoClose: 3000 } ); 
             this.setState({ showButton: false });  //! Кнопка LOAD MORE => ПРЯЧЕМ
             return;
           }
