@@ -58,8 +58,8 @@ export class ImageGallery extends Component {
 
         .then(({ hits, query, endOfCollection }) => {
           if (hits[0] === undefined) {  
-            toast.warning('Нет такой темы: '); 
-            toast.warning(query); 
+            toast.warning(`Нет такой темы: ${query}`); 
+            // toast.warning(query); 
             this.setState ({
               hits: [],
               isLoading: false
@@ -84,9 +84,8 @@ export class ImageGallery extends Component {
         .catch(error => {
           this.setState({ error, isLoading: false });
           console.log(error); //!
-          alert(error);
-          // toast.warning(error); //? !!! НЕ РАБОТАЕТ !!!
-          toast.error("Ошибка запроса", { position: "top-left", autoClose: 2000 } ); 
+          // alert(error);
+          toast.error(`Ошибка запроса: ${error}`, { position: "top-left", autoClose: 2000 } ); 
         });
       }, 1000);
       //! Передача пропса this.state в App
