@@ -149,7 +149,7 @@ export class ImageGallery extends Component {
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img
-              src={this.image.largeURL}
+              src={this.largeURL}
               alt=""
             />
           </Modal>
