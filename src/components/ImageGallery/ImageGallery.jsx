@@ -9,7 +9,6 @@ import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 import { Modal } from 'components/Modal/Modal';
 
-
 import css from 'components/ImageGallery/ImageGallery.module.css' //todo = старый вариант импорта стилей
 
 
@@ -27,10 +26,7 @@ export class ImageGallery extends Component {
 
 
   //! для поиска largeImageURL
-  image = {
-    webURL: "",
-    largeURL: "",
-  }
+  largeURL = "";
 
 
 //* ================================ МЕТОДЫ ==========================================================
@@ -115,9 +111,11 @@ export class ImageGallery extends Component {
 
   //! Кликаем в картинку, ищем её largeImageURL, откываем МОДАЛКУ с картинкой
   handleBackdropClick1 = event => {
-    this.toggleModal()
-    const i = this.state.hits.findIndex(hit => hit.webformatURL === event.target.src)
-    this.image.largeURL = this.state.hits[i].largeImageURL
+    if (event.target.src) {
+      this.toggleModal()
+      const i = this.state.hits.findIndex(hit => hit.webformatURL === event.target.src)
+      this.largeURL = this.state.hits[i].largeImageURL;
+    } else return;
   };
 
 
@@ -142,15 +140,11 @@ export class ImageGallery extends Component {
           onClick={this.handleBackdropClick1}
         >
           <ImageGalleryItem hits={hits} />
-
         </ul>
-
 
         {isLoading && <Loader />}
 
         {(hits[0] !== undefined && showButton) && <Button onClick={this.loadMore} />}
-        
-
         
         {showModal && (
           <Modal onClose={this.toggleModal}>
