@@ -22,7 +22,6 @@ export class App extends Component {
   //! Передача пропса this.state.query из Searchbar
   handleFormSubmit = (query) => {
     this.setState ({
-      page: 1,
       query,
     });
   };

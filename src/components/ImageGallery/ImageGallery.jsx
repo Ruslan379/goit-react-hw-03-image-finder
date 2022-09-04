@@ -52,8 +52,8 @@ export class ImageGallery extends Component {
       pixabayAPI
         .fetchPixabay(this.state.query, this.state.page)
 
-        .then(({ hits, query, endOfCollection }) => {
-          if (hits[0] === undefined) {  
+        .then(({ totalHits, hits, query, endOfCollection }) => {
+          if (hits.length === 0) {  
             toast.warning(`Нет такой темы: ${query}`); 
             // toast.warning(query); 
             this.setState ({
@@ -62,6 +62,9 @@ export class ImageGallery extends Component {
             });
           return;
           } else {
+            if (this.state.page === 1) {
+              toast.success(`По вашей теме найдено ${totalHits} изображений`, { autoClose: 3000 });
+            };
               this.setState(prevState  => ({
                 hits: [...prevState.hits, ...hits],
                 isLoading: false,
@@ -78,10 +81,9 @@ export class ImageGallery extends Component {
         })
         //! Обработка ошибок
         .catch(error => {
-          this.setState({ error, isLoading: false });
-          console.log(error); //!
-          // alert(error);
-          toast.error(`Ошибка запроса: ${error}`, { position: "top-left", autoClose: 2000 } ); 
+          this.setState({ error: error.message, isLoading: false });
+          console.log(error.message); //!
+          toast.error(`Ошибка запроса: ${error.message}`, { position: "top-center", autoClose: 2000 } ); 
         });
       }, 1000);
       //! Передача пропса this.state в App
@@ -123,12 +125,19 @@ export class ImageGallery extends Component {
 
 //* ================================ RENDER ==========================================================
   render() {
-    const { hits, isLoading, showModal, showButton } = this.state
+    const { hits, isLoading, showModal, showButton, error } = this.state
 
 
     return (
-      < >
-        {(hits[0] === undefined && isLoading === false) && (
+      <>
+        {error && (
+          <div style={{ margin: '0 auto', color: 'red' }}>
+            <h1>Ошибка запроса:</h1>
+            <h2 style={{ textDecoration: "underline", fontStyle: 'italic', color: '#a10000' }}>!!! {error}</h2>
+          </div>
+        )}
+
+        {(hits.length === 0 && isLoading === false) && (
           <div
             style={{ margin: '0 auto' }}
           >
@@ -136,8 +145,7 @@ export class ImageGallery extends Component {
           </div>
         )}
         
-        <ul
-          className={css.ImageGallery}
+        <ul className={css.ImageGallery}
           onClick={this.handleBackdropClick1}
         >
           <ImageGalleryItem hits={hits} />
@@ -145,7 +153,7 @@ export class ImageGallery extends Component {
 
         {isLoading && <Loader />}
 
-        {(hits[0] !== undefined && showButton) && <Button onClick={this.loadMore} />}
+        {(hits.length !== 0 && showButton) && <Button onClick={this.loadMore} />}
         
         {showModal && (
           <Modal onClose={this.toggleModal}>
@@ -175,46 +183,3 @@ ImageGallery.propTypes = {
 
 
 
-
-
-
-
-//! OLD --------------------------------------------------------------------------
-// import React from 'react';
-// import PropTypes from 'prop-types';
-
-// // import classNames from 'classnames';
-
-// // import 'components/ContactList/ContactList.css';
-// import css from 'components/ImageGallery/ImageGallery.module.css' //todo = старый вариант импорта стилей
-
-
-
-
-// export const ImageGallery = ({ hits }) => (
-//         <ul className={css.ImageGallery}>
-//           {hits.map(({ id, webformatURL, largeImageURL }) => (
-//             <li
-//               key={id}
-//               // className="gallery-item"
-//               className={css.ImageGalleryItem}
-//             >
-//               <img
-//                 className={css.ImageGalleryItemImage}
-//                 src={webformatURL}
-//                 alt=""
-//               />
-//           </li>
-//           ))}
-//         </ul>
-// );
-
-
-// ImageGallery.propTypes = {
-//   hits: PropTypes.array.isRequired,
-  
-// };
-
-
-
-// // export default Filter;
