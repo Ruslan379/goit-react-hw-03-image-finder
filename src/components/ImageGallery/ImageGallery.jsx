@@ -7,9 +7,9 @@ import pixabayAPI from 'services/pixabay-api.js';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
-import { Modal } from 'components/Modal/Modal';
 
-import css from 'components/ImageGallery/ImageGallery.module.css' //todo = старый вариант импорта стилей
+
+import css from 'components/ImageGallery/ImageGallery.module.css' 
 
 
 
@@ -20,13 +20,8 @@ export class ImageGallery extends Component {
   hits: [],
   isLoading: false,
   error: false,
-  showModal: false,
-  showButton: true,
+  showButton: true, 
   };
-
-
-  //! для поиска largeImageURL
-  largeURL = "";
 
 
 //* ================================ МЕТОДЫ ==========================================================
@@ -46,7 +41,7 @@ export class ImageGallery extends Component {
       prevState.page !== this.state.page ||
       prevState.query !== this.state.query
     ) {
-      this.setState({ isLoading: true }); 
+      this.setState({ error: false, isLoading: true }); 
       //! Делаем fetch-запрос с помощью services/pixabay-api.js
       setTimeout(() => {
       pixabayAPI
@@ -55,7 +50,6 @@ export class ImageGallery extends Component {
         .then(({ totalHits, hits, query, endOfCollection }) => {
           if (hits.length === 0) {  
             toast.warning(`Нет такой темы: ${query}`); 
-            // toast.warning(query); 
             this.setState ({
               hits: [],
               isLoading: false
@@ -103,29 +97,10 @@ export class ImageGallery extends Component {
   
 
 
-  //! Инверсия showModal для открытия/закрытия МОДАЛКИ
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  }; 
-
-
-
-  //! Кликаем в картинку, ищем её largeImageURL, откываем МОДАЛКУ с картинкой
-  handleBackdropClick1 = event => {
-    if (event.target.src) {
-      this.toggleModal()
-      const i = this.state.hits.findIndex(hit => hit.webformatURL === event.target.src)
-      this.largeURL = this.state.hits[i].largeImageURL;
-    } else return;
-  };
-
-
 
 //* ================================ RENDER ==========================================================
   render() {
-    const { hits, isLoading, showModal, showButton, error } = this.state
+    const { hits, isLoading, showButton, error } = this.state
 
 
     return (
@@ -145,24 +120,13 @@ export class ImageGallery extends Component {
           </div>
         )}
         
-        <ul className={css.ImageGallery}
-          onClick={this.handleBackdropClick1}
-        >
+        <ul className={css.ImageGallery}>
           <ImageGalleryItem hits={hits} />
         </ul>
 
         {isLoading && <Loader />}
 
         {(hits.length !== 0 && showButton) && <Button onClick={this.loadMore} />}
-        
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <img
-              src={this.largeURL}
-              alt=""
-            />
-          </Modal>
-        )}
       </>
     );
   }
@@ -170,7 +134,6 @@ export class ImageGallery extends Component {
 
 
 ImageGallery.propTypes = {
-  // onSubmit: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
 };
 

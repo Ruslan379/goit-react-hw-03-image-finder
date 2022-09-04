@@ -1,18 +1,54 @@
-import React from 'react';
+// import React from 'react'; //?
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css' //todo = старый вариант импорта стилей
+import { Modal } from 'components/Modal/Modal';
+
+import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css' 
 
 
 
 
-export const ImageGalleryItem = ({ hits }) => (
+export class ImageGalleryItem extends Component {
+  state = {
+  showModal: false,
+  largeURL: "",
+  };
+
+  //* ================================ МЕТОДЫ ==========================================================
+
+  //! Инверсия showModal для открытия/закрытия МОДАЛКИ
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  }; 
+
+
+
+  //! Кликаем в картинку, ищем её largeImageURL, откываем МОДАЛКУ с картинкой
+  handleBackdropClick = event => {
+    if (event.target.src) {
+      this.toggleModal()
+      const i = this.props.hits.findIndex(hit => hit.webformatURL === event.target.src)
+      this.setState({ largeURL: this.props.hits[i].largeImageURL });
+    } else return;
+  };
+
+
+  //* ================================ RENDER ==========================================================
+  render() {
+    const { showModal, largeURL } = this.state
+    const { hits } = this.props
+
+
+    return (
         <>
-          {hits.map(({ id, webformatURL, largeImageURL }) => (
+          {hits.map(({ id, webformatURL }) => (
             <li
               key={id}
-              // className="gallery-item"
               className={css.ImageGalleryItem}
+              onClick={this.handleBackdropClick}
             >
               <img
                 className={css.ImageGalleryItemImage}
@@ -21,15 +57,23 @@ export const ImageGalleryItem = ({ hits }) => (
               />
           </li>
           ))}
+        
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <img
+              src={largeURL}
+              alt=""
+            />
+          </Modal>
+        )}
         </>
-);
+    );
+  }
+}
 
 
 ImageGalleryItem.propTypes = {
   hits: PropTypes.array.isRequired,
-  
 };
 
 
-
-// export default Filter;
