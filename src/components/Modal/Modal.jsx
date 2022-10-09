@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import css from 'components/Modal/Modal.module.css' //todo = старый вариант импорта стилей
+import css from 'components/Modal/Modal.module.css' 
 
 
 const modalRoot = document.querySelector('#modal-root');
@@ -11,40 +11,32 @@ const modalRoot = document.querySelector('#modal-root');
 
 
 export class Modal extends Component {
-//* ================================ МЕТОДЫ ==========================================================
+  static propTypes = {
+  children: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  };
+  
   componentDidMount() {
-    // console.log('Modal componentDidMount'); //!
     window.addEventListener('keydown', this.handleKeyDown);
   }
 
-
   componentWillUnmount() {
-    // console.log('Modal componentWillUnmount'); //!
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
-
   handleKeyDown = e => {
     if (e.code === 'Escape') {
-      // console.log('Нажали ESC, нужно закрыть модалку'); //!
       this.props.onClose();
     }
   };
 
-
   handleBackdropClick = event => {
-    // console.log('Кликнули в бекдроп Modal'); //!
-
-    // console.log('currentTarget: ', event.currentTarget); //!
-    // console.log('target: ', event.target); //!
-
     if (event.currentTarget === event.target) {
       this.props.onClose();
     }
   };
 
 
-//* ================================ RENDER ==========================================================
   render() {
     return createPortal(
       <div
@@ -57,42 +49,11 @@ export class Modal extends Component {
       modalRoot,
     );
   }
-}
-
-
-
-Modal.propTypes = {
-  children: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
 };
 
-
-
-
-//!OLD ------------------------------------------------------------
-// import React from 'react';
-// import PropTypes from 'prop-types';
-
-// import css from 'components/Modal/Modal.module.css' //todo = старый вариант импорта стилей
-
-
-
-
-// export const Modal = ({hits}) => (
-//   <div className={css.Overlay}>
-//     <div className={css.Modal}>
-//       <img
-//         src={hits[0].largeImageURL}
-//         alt=""
-//       />
-//     </div>
-//   </div>
-// );
-
-
 // Modal.propTypes = {
-//   hits: PropTypes.array.isRequired,
+//   children: PropTypes.object.isRequired,
+//   onClose: PropTypes.func.isRequired,
 // };
 
 
-// // export default Filter;

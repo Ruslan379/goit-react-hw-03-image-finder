@@ -6,19 +6,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 
-import css from 'components/App/App.module.css' //todo = старый вариант импорта стилей
+import css from 'components/App/App.module.css' 
 
 
 
 export class App extends Component {
-
   state = {
     query: '',
   };
 
 
-//* ================================ МЕТОДЫ ==========================================================
-  
   //! Передача пропса this.state.query из Searchbar
   handleFormSubmit = (query) => {
     this.setState ({
@@ -28,9 +25,6 @@ export class App extends Component {
 
 
 
-
-
-//* ================================ RENDER ==========================================================
   render() {
     const { query } = this.state
 

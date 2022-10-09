@@ -10,10 +10,9 @@ import css from 'components/Searchbar/Searchbar.module.css' //todo = стары�
 
 
 export class Searchbar extends Component {
-
-  // static propTypes = {
-  //   onSubmit: PropTypes.func.isRequired,
-  // };
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
 
 
   state = {
@@ -21,7 +20,6 @@ export class Searchbar extends Component {
   };
 
 
-//* ================================ МЕТОДЫ ==========================================================
   //! Запись в state значения поля инпут
   handleChange = event => {
     // console.log("handleChange - event.currentTarget.value: ", event.currentTarget.value); //!
@@ -55,7 +53,6 @@ export class Searchbar extends Component {
 
 
 
-//* ================================ RENDER ==========================================================
   render() {
     return (
       <header className={css.Searchbar}>
@@ -88,7 +85,6 @@ export class Searchbar extends Component {
 }
 
 
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+// Searchbar.propTypes = {
+//   onSubmit: PropTypes.func.isRequired,
+// };

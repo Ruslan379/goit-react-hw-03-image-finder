@@ -14,6 +14,10 @@ import css from 'components/ImageGallery/ImageGallery.module.css'
 
 
 export class ImageGallery extends Component {
+  static propTypes = {
+  query: PropTypes.string.isRequired,
+};
+
   state = {
   page: 1,
   query: '',
@@ -24,7 +28,6 @@ export class ImageGallery extends Component {
   };
 
 
-//* ================================ МЕТОДЫ ==========================================================
   //! ==> ОСНОВНОЙ БЛОК. Анализ props и state + ЗАПРОС ==> 1-ый ВАРИАНТ
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -98,7 +101,6 @@ export class ImageGallery extends Component {
 
 
 
-//* ================================ RENDER ==========================================================
   render() {
     const { hits, isLoading, showButton, error } = this.state
 
@@ -135,9 +137,9 @@ export class ImageGallery extends Component {
 }
 
 
-ImageGallery.propTypes = {
-  query: PropTypes.string.isRequired,
-};
+// ImageGallery.propTypes = {
+//   query: PropTypes.string.isRequired,
+// };
 
 
 

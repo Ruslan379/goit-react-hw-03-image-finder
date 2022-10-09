@@ -10,12 +10,16 @@ import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css'
 
 
 export class ImageGalleryItem extends Component {
+  static propTypes = {
+  hits: PropTypes.array.isRequired,
+  };
+  
+
   state = {
   showModal: false,
   largeURL: "",
   };
 
-  //* ================================ МЕТОДЫ ==========================================================
 
   //! Инверсия showModal для открытия/закрытия МОДАЛКИ
   toggleModal = () => {
@@ -23,7 +27,6 @@ export class ImageGalleryItem extends Component {
       showModal: !showModal,
     }));
   }; 
-
 
 
   //! Кликаем в картинку, ищем её largeImageURL, откываем МОДАЛКУ с картинкой
@@ -36,11 +39,9 @@ export class ImageGalleryItem extends Component {
   };
 
 
-  //* ================================ RENDER ==========================================================
   render() {
     const { showModal, largeURL } = this.state
     const { hits } = this.props
-
 
     return (
         <>
@@ -71,9 +72,8 @@ export class ImageGalleryItem extends Component {
   }
 }
 
-
-ImageGalleryItem.propTypes = {
-  hits: PropTypes.array.isRequired,
-};
+// ImageGalleryItem.propTypes = {
+//   hits: PropTypes.array.isRequired,
+// };
 
 
