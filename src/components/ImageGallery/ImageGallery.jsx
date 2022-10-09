@@ -120,9 +120,11 @@ export class ImageGallery extends Component {
           </div>
         )}
         
-        <ul className={css.ImageGallery}>
-          <ImageGalleryItem hits={hits} />
-        </ul>
+        {hits.length > 0 &&
+          (<ul className={css.ImageGallery}>
+            <ImageGalleryItem hits={hits} />
+          </ul>)
+        }
 
         {isLoading && <Loader />}
 
