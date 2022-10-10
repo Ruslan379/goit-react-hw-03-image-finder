@@ -129,8 +129,6 @@ export class ImageGallery extends Component {
                 key={id}
                 hits={hits}
                 webformatURL={webformatURL}
-
-
               />
             ))}
           </ul>

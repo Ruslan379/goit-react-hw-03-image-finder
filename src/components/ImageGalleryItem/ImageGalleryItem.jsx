@@ -48,8 +48,7 @@ export class ImageGalleryItem extends Component {
 
     return (
       <>
-        <li
-          className={css.ImageGalleryItem}
+        <li className={css.ImageGalleryItem}
           onClick={this.handleBackdropClick}
         >
           <img
