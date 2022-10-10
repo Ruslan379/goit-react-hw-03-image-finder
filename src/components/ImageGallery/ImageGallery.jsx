@@ -124,9 +124,19 @@ export class ImageGallery extends Component {
         
         {hits.length > 0 &&
           (<ul className={css.ImageGallery}>
-            <ImageGalleryItem hits={hits} />
-          </ul>)
+            {hits.map(({ id, webformatURL }) => (
+              <ImageGalleryItem
+                key={id}
+                hits={hits}
+                webformatURL={webformatURL}
+
+
+              />
+            ))}
+          </ul>
+          )
         }
+        
 
         {isLoading && <Loader />}
 

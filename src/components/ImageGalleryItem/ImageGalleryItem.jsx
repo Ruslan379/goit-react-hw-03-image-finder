@@ -11,7 +11,8 @@ import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css'
 
 export class ImageGalleryItem extends Component {
   static propTypes = {
-  hits: PropTypes.array.isRequired,
+    hits: PropTypes.array.isRequired,
+    webformatURL: PropTypes.string.isRequired
   };
   
 
@@ -41,24 +42,23 @@ export class ImageGalleryItem extends Component {
 
   render() {
     const { showModal, largeURL } = this.state
-    const { hits } = this.props
+    // const { hits } = this.props
+    const { webformatURL } = this.props
+ 
 
     return (
-        <>
-          {hits.map(({ id, webformatURL }) => (
-            <li
-              key={id}
-              className={css.ImageGalleryItem}
-              onClick={this.handleBackdropClick}
-            >
-              <img
-                className={css.ImageGalleryItemImage}
-                src={webformatURL}
-                alt=""
-              />
-          </li>
-          ))}
-        
+      <>
+        <li
+          className={css.ImageGalleryItem}
+          onClick={this.handleBackdropClick}
+        >
+          <img
+            className={css.ImageGalleryItemImage}
+            src={webformatURL}
+            alt=""
+          />
+        </li>
+      
         {showModal && (
           <Modal onClose={this.toggleModal}>
             <img
@@ -67,13 +67,14 @@ export class ImageGalleryItem extends Component {
             />
           </Modal>
         )}
-        </>
+      </>
     );
   }
 }
 
 // ImageGalleryItem.propTypes = {
 //   hits: PropTypes.array.isRequired,
+//   webformatURL: PropTypes.string.isRequired
 // };
 
 
